@@ -4,18 +4,24 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>To do List</title>
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
     <div id="main">
         <div id="inputs">
-            <input type="text">
-            <button>Add Task</button>
+            <input type="text" id="Addinput">
+        </div>
+        <div id="btnss">
+            <button id="dltbtn">Delete Task</button>
+            <button id="Addbtn" onclick="adds()">Add Task</button>
+            <button id="Uptbtn">Update Task</button>
         </div>
         <div id="tasks">
-            <ul>
-                <li></li>
+            <ul id="uls">
+                <h3>Tasks</h3>
             </ul>
         </div>
     </div>
+    <script src="script.js"></script>
 </body>
 </html>
