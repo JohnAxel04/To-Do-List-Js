@@ -3,30 +3,90 @@ const upd = document.getElementById("Uptbtn");
 const add = document.getElementById("Addbtn");
 const dlt = document.getElementById("dltbtn");
 const uls = document.getElementById("uls");
-let tasks = [];
-let select = null;
+let tasks = JSON.parse(localStorage.getItem("store")) || [];
+let select = [];
+
+function show(){
+    tasks.forEach(tsk => {
+        const createTask = document.createElement("li");
+    
+        const checks = document.createElement("input");
+        checks.type = "checkbox";
+        checks.checked = tsk.box;
+
+        if(tsk.box == true){
+            createTask.style.textDecoration = "line-through";
+            select.push(tsk);
+        }
+        
+        createTask.appendChild(checks);
+        createTask.append(tsk.taskss);
+
+        uls.appendChild(createTask);
+
+        checks.addEventListener("change",() => {
+            tsk.box = checks.checked;
+            
+            if(tsk.box == true){
+                createTask.style.textDecoration = "line-through";
+                select.push(tsk)
+            }
+            else{
+                createTask.style.textDecoration = "";
+                select = select.filter(item => item !== tsk);
+            }
+
+            localStorage.setItem("store",JSON.stringify(tasks));
+        })
+
+    })
+}
+
 function adds(){
     const createTask = document.createElement("li");
     
     const checks = document.createElement("input");
     checks.type = "checkbox";
 
-    tasks.push(inps.value);
+    const alltask = {
+        taskss : inps.value,
+        box: false
+    };
+
+    tasks.push(alltask);
     localStorage.setItem("store",JSON.stringify(tasks));
 
     createTask.appendChild(checks);
-    createTask.append(tasks[0]);
+    createTask.append(alltask.taskss);
 
-    document.querySelector("#uls").appendChild(createTask);
+    uls.appendChild(createTask);
 
-    createTask.addEventListener("click",() => {
-        document.querySelectorAll("#uls li").forEach(lis => {
-            lis.classList.remove("selected")
-        })
-        createTask.classList.add("selected")
-
-        
-    })
-    
 }
 
+function delt(){
+    if(select[0] == undefined){
+        alert("Select first to Delete Task")
+    }
+    tasks = tasks.filter(task => !select.includes(task));
+
+    localStorage.setItem("store",JSON.stringify(tasks));
+
+    location.reload();
+}
+
+function updat(){
+    if(select[0] == undefined){
+        alert("Select first to Update Tasks")
+    }
+
+    select.forEach(task => {
+        task.taskss = inps.value;
+    });
+
+    localStorage.setItem("store",JSON.stringify(tasks));
+
+    location.reload()
+}
+
+show()
+console.log(select)
